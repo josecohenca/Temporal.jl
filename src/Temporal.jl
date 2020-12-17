@@ -34,7 +34,7 @@ module Temporal
         # models
         acf,
         # data
-        tsread, tswrite, quandl, quandl_auth, quandl_meta, quandl_search, yahoo, google
+        tsread, tswrite, quandl, quandl_auth, quandl_meta, quandl_search, yahoo, yahoo_nocrumb, google
     include("data/ts.jl")
     include("data/indexing.jl")
     include("data/stringrange.jl")
