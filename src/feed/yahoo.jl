@@ -79,6 +79,7 @@ function yahoo(symb::String;
     period1 = Int(floor(Dates.datetime2unix(Dates.DateTime(from))))
     period2 = Int(floor(Dates.datetime2unix(Dates.DateTime(thru))))
     urlstr = "$(YAHOO_URL)/$(symb)?period1=$(period1)&period2=$(period2)&interval=1$(freq)&events=$(event)&crumb=$(crumb_tuple[1])"
+    urlstr = "$(YAHOO_URL)/$(symb)?period1=$(period1)&period2=$(period2)&interval=1$(freq)&events=$(event)"
     response = HTTP.request("POST",HTTP.URIs.URI(urlstr), cookies=true, cookiejar=crumb_tuple[2])
     indata = Temporal.csvresp(response)
     data = TS(indata[1], indata[2], indata[3][2:end])
