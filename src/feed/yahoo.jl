@@ -86,6 +86,26 @@ function yahoo(symb::String;
     return data
 end
 
+
+function yahoo_nocrumb(symb::String;
+               from::String="1900-01-01",
+               thru::String=string(Dates.today()),
+               freq::String="d",
+               event::String="history")::TS
+    @assert freq in ["d","wk","mo"] "Argument `freq` must be either \"d\" (daily), \"wk\" (weekly), or \"mo\" (monthly)."
+    @assert event in ["history","div","split"] "Argument `event` must be either \"history\", \"div\", or \"split\"."
+    @assert from[5] == '-' && from[8] == '-' "Argument `from` has invalid date format."
+    @assert thru[5] == '-' && thru[8] == '-' "Argument `thru` has invalid date format."
+    period1 = Int(floor(Dates.datetime2unix(Dates.DateTime(from))))
+    period2 = Int(floor(Dates.datetime2unix(Dates.DateTime(thru))))
+    urlstr = "$(YAHOO_URL)/$(symb)?period1=$(period1)&period2=$(period2)&interval=1$(freq)&events=$(event)"
+    response = HTTP.request("POST",HTTP.URIs.URI(urlstr), cookies=true, cookiejar=crumb_tuple[2])
+    indata = Temporal.csvresp(response)
+    data = TS(indata[1], indata[2], indata[3][2:end])
+    rename!(data, Symbol("Adj Close")=>:AdjClose)
+    return data
+end
+
 function yahoo(syms::Vector{String};
                from::String="1900-01-01",
                thru::String=string(Dates.today()),
