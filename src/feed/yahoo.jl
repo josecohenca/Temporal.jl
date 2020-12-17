@@ -1,4 +1,4 @@
-const YAHOO_URL = "https://query1.finance.yahoo.com/v7/finance/download"  # for querying yahoo's servers
+const YAHOO_URL = "https://query2.finance.yahoo.com/v7/finance/download"  # for querying yahoo's servers
 const YAHOO_TMP = "https://ca.finance.yahoo.com/quote/^GSPC/history?p=^GSPC"  # for getting the cookies and crumbs
 
 import HTTP
